@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Trivia App</title>
+    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+       <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.24.0/babel.js"></script>
+</head>
+<body>
+<div id="root"></div>
+        
+
+<script type="text/babel">
+     
+    function OneAnswer(props) {
+        var style = {
+            height: 50,
+            width: 250,
+            color: "blue"
+        }
+            return (
+            <div>
+            <button style = {style} onClick = {() => props.checkAnswer(props.answer)}>{props.answer}</button> <br/>
+            </div>
+        )
+        
+    }
+
+    function Answers(props) {
+        var options = [];
+        for( let i = 0; i < 4; i++) {
+            options.push(<OneAnswer answer = {props.answers[i]} checkAnswer = {props.checkAnswer}/>);
+        }
+        return (
+            <div>
+            {options}
+            </div>
+        )
+    }
+
+    function Question(props) {
+        var style = {
+            color: "blue"
+        }
+        return (
+            <div>
+            <h1 style = {style}>Welcome to Trivia App!</h1>
+            <h2>{props.question}</h2>
+            <Answers answers = {props.answers} checkAnswer = {props.checkAnswer} />
+            </div>
+            )
+    }
+
+    function CorrectAnswers(props) {
+        return (
+            <div>
+            <p>Correct : {props.correct}  |</p> 
+            </div>
+        )
+    }
+
+    function IncorrectAnswers(props) {
+        return (
+            <div>
+            <p>| Incorrect : {props.incorrect}</p> 
+            </div>
+        )
+    }
+    
+    
+    class App extends React.Component {
+        constructor(props) {
+            super(props);
+            var question = [{question: "1.What is 2 + 2 ?",
+                            answers: [4, 5, 6, 7],
+                            correctanswer: 4},
+                            {question: "2.What is 3 + 3 ?",
+                            answers: [10, 9, 6, 2], 
+                            correctanswer: 6},
+                            {question: "3.What is 4 * 4 ?",
+                            answers: [8, 10, 9, 16] ,
+                            correctanswer: 16},
+                            {question: "4.What is 10 * 3 ?",
+                            answers: [13,30, 24, 20] ,
+                            correctanswer: 30},
+                            {question: "5.What is 200 - 54 ?",
+                            answers: [146, 133, 145, 128] ,
+                            correctanswer: 146},
+                            {question: "6.What is 12 * 4 ?",
+                            answers: [16, 20, 48, 52] ,
+                            correctanswer: 48},
+                            {question: "7.What is 99 - 45 ?",
+                            answers: [32, 43, 44, 86] ,
+                            correctanswer: 44},
+                            {question: "8.What is 123 + 23 ?",
+                            answers: [146, 155, 166, 145] ,
+                            correctanswer: 146},
+                            {question: "9.What is 45 * 12 ?",
+                            answers: [425, 600, 450, 540] ,
+                            correctanswer: 540},
+                            {question: "10.What is 16 + 57 ?",
+                            answers: [84, 63, 91, 73] ,
+                            correctanswer: 73},
+                            ]
+        this.state = {
+            question: question,
+            correct:0, 
+            incorrect:0,
+            item:0,
+        }
+       this.checkAnswer = this.checkAnswer.bind(this)
+        }
+
+        checkAnswer(answer) {
+            var iscorrectanswer = this.state.question[this.state.item].correctanswer;
+            let item = this.state.item;
+            const length = this.state.question.length - 1;
+            
+
+            if(iscorrectanswer == answer) {
+                this.setState((prevState, props) => {
+                return { correct: prevState.correct + 1}
+            });
+            } else {
+                this.setState((prevState, props) => {
+                return { incorrect: prevState.incorrect + 1}
+            });
+            }
+
+            if(this.state.item < (this.state.question.length - 1)) {
+                this.setState((prevState, props) => {
+                return { item: prevState.item + 1}
+            });
+            }
+            
+             if(item  == length) {
+                this.setState((prevState, props) => {
+                return { item: 0,
+                    correct: 0,
+                    incorrect: 0}
+                     });
+             }
+        
+        }
+
+        render() {
+            var style = {
+                display: "flex",
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center"
+            }
+         return (
+             <div style = {style}>
+             <Question question = {this.state.question[this.state.item].question} 
+             answers = {this.state.question[this.state.item].answers} 
+             checkAnswer = {this.checkAnswer}/>
+             <CorrectAnswers correct = {this.state.correct}/>
+             <IncorrectAnswers incorrect = {this.state.incorrect}/> 
+             </div>
+         )
+        }
+        
+    }
+
+     ReactDOM.render(
+     <App/>,
+    document.getElementById("root")
+    )
+
+</script>
+</body>
+</html>
