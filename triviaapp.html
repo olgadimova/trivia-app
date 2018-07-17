@@ -8,6 +8,23 @@
     <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
        <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.24.0/babel.js"></script>
+<style>
+    html {
+        background-image: url(jesswatters.jpg);
+        height: 100%;
+       
+    }
+
+    body {
+        height: 400px;
+        margin: 10%;
+        text-align: center
+    }
+    p {
+        font-size: 20px;
+    }
+    
+</style>
 </head>
 <body>
 <div id="root"></div>
@@ -19,7 +36,8 @@
         var style = {
             height: 50,
             width: 250,
-            color: "blue"
+            color: "blue",
+            fontSize: 20,
         }
             return (
             <div>
@@ -43,12 +61,11 @@
 
     function Question(props) {
         var style = {
-            color: "blue"
+            textAlign: "left"
         }
         return (
             <div>
-            <h1 style = {style}>Welcome to Trivia App!</h1>
-            <h2>{props.question}</h2>
+            <h2 style = {style}>{props.question}</h2>
             <Answers answers = {props.answers} checkAnswer = {props.checkAnswer} />
             </div>
             )
@@ -153,13 +170,22 @@
                 justifyContent: "center",
                 alignItems: "center"
             }
+            var textstyle = {
+                textAlign: "center",
+                color: "coral",
+                fontSize: 50,
+                margin: 0
+            }
          return (
-             <div style = {style}>
+             <div>
+            <h1 style = {textstyle}>Check your math skills with Trivia App!</h1>
+            <div style = {style}>
              <Question question = {this.state.question[this.state.item].question} 
              answers = {this.state.question[this.state.item].answers} 
              checkAnswer = {this.checkAnswer}/>
              <CorrectAnswers correct = {this.state.correct}/>
              <IncorrectAnswers incorrect = {this.state.incorrect}/> 
+             </div>
              </div>
          )
         }
